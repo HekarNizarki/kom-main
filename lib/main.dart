@@ -9,22 +9,47 @@ void main() {
   runApp(const KomkanApp());
 }
 
-class KomkanApp extends StatelessWidget {
+class KomkanApp extends StatefulWidget {
   const KomkanApp({super.key});
+
+  @override
+  State<KomkanApp> createState() => _KomkanAppState();
+}
+
+class _KomkanAppState extends State<KomkanApp> {
+  bool _isDarkMode = true;
+
+  void _setThemeMode(bool isDarkMode) {
+    setState(() {
+      _isDarkMode = isDarkMode;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Komkan Scoreboard',
-      theme: KomkanTheme.darkTheme,
+      theme: KomkanTheme.lightTheme,
+      darkTheme: KomkanTheme.darkTheme,
+      themeMode: _isDarkMode ? ThemeMode.dark : ThemeMode.light,
       debugShowCheckedModeBanner: false,
-      home: const MainScreen(),
+      home: MainScreen(
+        isDarkMode: _isDarkMode,
+        onThemeModeChanged: _setThemeMode,
+      ),
     );
   }
 }
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+  final bool isDarkMode;
+  final ValueChanged<bool> onThemeModeChanged;
+
+  const MainScreen({
+    super.key,
+    required this.isDarkMode,
+    required this.onThemeModeChanged,
+  });
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -135,6 +160,22 @@ class _MainScreenState extends State<MainScreen> {
                   onTap: () {
                     Navigator.pop(context);
                     _onTabChange(2);
+                  },
+                ),
+                SwitchListTile(
+                  title: const Text(
+                    'Dark Mode',
+                    style: TextStyle(color: Colors.white70),
+                  ),
+                  subtitle: const Text(
+                    'Toggle between dark and light themes',
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                  value: widget.isDarkMode,
+                  activeColor: KomkanTheme.primaryCyan,
+                  onChanged: (value) {
+                    widget.onThemeModeChanged(value);
+                    Navigator.pop(context);
                   },
                 ),
                 ListTile(

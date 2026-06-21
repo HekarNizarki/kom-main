@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'match_state.dart';
 import 'theme.dart';
 
@@ -392,7 +393,7 @@ class _BoardScreenState extends State<BoardScreen> {
                         Text(
                           state.p1TotalScore == state.p2TotalScore
                               ? 'DRAW'
-                              : state.p1TotalScore > state.p2TotalScore
+                              : state.p1TotalScore < state.p2TotalScore
                               ? state.player1
                               : state.player2,
                           style: TextStyle(
@@ -495,9 +496,9 @@ class _BoardScreenState extends State<BoardScreen> {
   Widget _buildPlayerPoints(
     String playerName,
     TextEditingController controller,
-    ValueChanged<String> onChanged,
-    {required bool enabled},
-  ) {
+    ValueChanged<String> onChanged, {
+    required bool enabled,
+  }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [

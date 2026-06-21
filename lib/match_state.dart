@@ -154,9 +154,9 @@ class MatchState extends ChangeNotifier {
     final p1Final = p1TotalScore;
     final p2Final = p2TotalScore;
     String matchWinner;
-    if (p1Final > p2Final) {
+    if (p1Final < p2Final) {
       matchWinner = _player1;
-    } else if (p2Final > p1Final) {
+    } else if (p2Final < p1Final) {
       matchWinner = _player2;
     } else {
       matchWinner = 'DRAW';
